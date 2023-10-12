@@ -51,6 +51,3 @@ for (let i = 0; i < totalSubnets; i++) {
 }
 
 const publicRoute = route.createPublicRoutes(publicRouteTable, igw, config.require('publicRouteName'));
-
-
-
