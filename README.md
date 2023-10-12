@@ -2,7 +2,8 @@
 
 ## .env file contents for reference
 
-### .env for dev
+- ### .env for dev
+```
 VPC_NAME="csye6225-dev-vpc"
 GW_NAME="csye6225-dev-igw"
 PUBLIC_SUBNET_1_NAME="csye6225-public-subnet-1"
@@ -22,8 +23,10 @@ PRIVATE_ROUTE_SUBNET_ASSOCIATION_1_NAME="csye6225-private-routing-subnet_1"
 PRIVATE_ROUTE_SUBNET_ASSOCIATION_2_NAME="csye6225-private-routing-subnet_2"
 PRIVATE_ROUTE_SUBNET_ASSOCIATION_3_NAME="csye6225-private-routing-subnet_3"
 PUBLIC_ROUTE_NAME="csye6225-public-routing"
+```
 
-### .env for demo
+- ### .env for demo
+```
 VPC_NAME="csye6225-demo-vpc"
 GW_NAME="csye6225-demo-igw"
 PUBLIC_SUBNET_1_NAME="csye6225-demo-public-subnet-1"
@@ -43,36 +46,48 @@ PRIVATE_ROUTE_SUBNET_ASSOCIATION_1_NAME="csye6225-demo-private-routing-subnet_1"
 PRIVATE_ROUTE_SUBNET_ASSOCIATION_2_NAME="csye6225-demo-private-routing-subnet_2"
 PRIVATE_ROUTE_SUBNET_ASSOCIATION_3_NAME="csye6225-demo-private-routing-subnet_3"
 PUBLIC_ROUTE_NAME="csye6225-demo-public-routing"
+```
 
 
 ## Commands needed for Pulumi
 
-***pulumi login --local***
-    Command to use CLI instead of Pulumi paid cloud service.
+```bash
+pulumi login --local
+```
+    
+```bash
+pulumi new
+```
 
-***pulumi new***
-    Command to create a pulumi workspace.
 
-***pulumi refresh***
-    Update pulumi state
+```bash
+pulumi refresh
+```
 
-***pulumi preview***
-    After refresh to see the pulumi updates
-    After checking the preview do ***pulumi up*** to publish the changes
 
-***pulumi stack init <stack-name>***
-    Command to initialize a new stack
-    Creates the yaml files for that particular stack
+```bash
+pulumi preview
+```
 
-***pulumi stack select <stack-name>***
-    Command to select a particular stack after setting up the configuration
+   
+```bash
+pulumi stack init <stack-name>
+```
 
-***pulumi stack export***
-    Command to get the pulumi stack
-    Used to get the URN for a resource
+   
+```bash
+pulumi stack select <stack-name>
+```
+    
+    
+```bash
+pulumi stack export
+```
 
-***pulumi destroy --target <URN_OF_THE_SUBNET>***
-    To destroy a particular resource
+    
+```bash
+pulumi destroy --target <URN_OF_THE_SUBNET>
+```
 
 
 
