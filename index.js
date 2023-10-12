@@ -8,31 +8,33 @@ const routeTableAssociation = require("./resources/routeTableAssociation");
 const route = require("./resources/publicRoute");
 const subnetCidr = require("./utils/generateCidr");
 
-const main = new aws.ec2.Vpc(process.env.VPC_NAME, {
-    cidrBlock: "10.0.0.0/16",
+const config = new pulumi.Config('devPulumiConfig');
+
+const main = new aws.ec2.Vpc(config.require('vpcName'), {
+    cidrBlock: config.require('defaultCidr'),
     instanceTenancy: "default",
     tags: {
-        Name: process.env.VPC_NAME,
+        Name: config.require('vpcName'),
     },
 });
 
-const igw = new aws.ec2.InternetGateway(process.env.GW_NAME, {
+const igw = new aws.ec2.InternetGateway(config.require('igwName'), {
     vpcId: main.id,
     tags: {
-        Name: process.env.GW_NAME,
+        Name: config.require('igwName'),
     },
 });
 
 // Create Public Route Table
-const publicRouteTable = routeTable.createPublicRouteTable(main, igw, process.env.PUBLIC_ROUTE_TABLE_NAME);
+const publicRouteTable = routeTable.createPublicRouteTable(main, igw, config.require('publicRoutingTableName'));
 
 // Create Private Route Table
-const privateRouteTable = routeTable.createPrivateRouteTable(main, process.env.PRIVATE_ROUTE_TABLE_NAME);
+const privateRouteTable = routeTable.createPrivateRouteTable(main, config.require('privateRoutingTableName'));
 
 
-const mainNetwork = '10.0.0.0/16';
-const totalSubnets = 6;
-const subnetMask = 24;
+const mainNetwork = config.require('defaultCidr');
+const totalSubnets = config.require('totalSubnets');
+const subnetMask = config.require('subnetMask');
 
 
 const subnets_arr = subnetCidr.generateCidr(mainNetwork, totalSubnets, subnetMask);
@@ -48,7 +50,7 @@ for (let i = 0; i < totalSubnets; i++) {
     const subnetAssociation = routeTableAssociation.createRouteTableAssociation(isPublic ? publicRouteTable : privateRouteTable, subnets, subnetAssociationName);
 }
 
-const publicRoute = route.createPublicRoutes(publicRouteTable, igw, process.env.PUBLIC_ROUTE_NAME);
+const publicRoute = route.createPublicRoutes(publicRouteTable, igw, config.require('publicRouteName'));
 
 
 
